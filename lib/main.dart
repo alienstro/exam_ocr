@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Exam App',
-      theme: ThemeData(primarySwatch: Colors.green, scaffoldBackgroundColor: Colors.white),
+      theme: ThemeData(primarySwatch: Colors.green, scaffoldBackgroundColor: Colors.white, useMaterial3: false),
       home: BottomNavScreen(),
     );
   }

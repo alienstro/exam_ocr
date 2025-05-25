@@ -60,8 +60,8 @@ class ExamCard extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: Colors.black12,
-                  blurRadius: 2,
-                  offset: Offset(0, 2),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
                 ),
               ],
             ),
