@@ -11,41 +11,53 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _tabs = [ExamScreen(), ClassesScreen(), SettingsScreen()];
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+  ];
+
+  Widget _buildTabNavigator(int index, Widget child) {
+    return Navigator(
+      key: _navigatorKeys[index],
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(builder: (_) => child);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _tabs[_currentIndex],
-      
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: const Color.fromARGB(
-                255,
-                239,
-                239,
-                239,
-              ), // 👈 Top border color
-              width: 1.0, // 👈 Top border thickness
-            ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          _buildTabNavigator(0, ExamScreen()),
+          _buildTabNavigator(1, ClassesScreen()),
+          _buildTabNavigator(2, SettingsScreen()),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        selectedItemColor: Colors.green,
+        onTap: (index) {
+          if (_currentIndex == index) {
+            // If user clicks the icon again, it will redirect to the root route.
+            _navigatorKeys[index].currentState?.popUntil(
+              (route) => route.isFirst,
+            );
+          } else {
+            setState(() => _currentIndex = index);
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.article), label: 'Exam'),
+          BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Classes'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
-        ),
-        child: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.green,
-          onTap: (index) => setState(() => _currentIndex = index),
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.article), label: 'Exam'),
-            BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Classes'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }

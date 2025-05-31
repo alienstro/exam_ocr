@@ -1,3 +1,4 @@
+import 'package:exam_ocr/features/exam/views/exam_exam_results_screen.dart';
 import 'package:flutter/material.dart';
 import './exam_scan_screen.dart';
 import './exam_answerskey_screen.dart';
@@ -142,7 +143,10 @@ class ExamDetailScreen extends StatelessWidget {
                   icon: Icons.bar_chart,
                   label: 'Results',
                   onTap: () {
-                   // TODO : Handle the results route
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => ExamResultScreenStudents()),
+                    );
                   },
                 ),
               ],
